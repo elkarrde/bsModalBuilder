@@ -1,0 +1,38 @@
+{
+  "name": "bs-modal-builder",
+  "version": "0.0.1",
+  "description": "Dynamic modal builder for Twitter Boostrap 3.x",
+  "author": "Neven Falica <nfalica@mentat-labs.com>",
+  "license": "MIT License",
+  "homepage": "https://github.com/elkarrde/bsModalBuilder#readme",
+  "main": "docs/index.html",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elkarrde/bsModalBuilder.git"
+  },
+  "keywords": [
+    "bootstrap",
+    "modal",
+    "builder"
+  ],
+  "bugs": {
+    "url": "https://github.com/elkarrde/bsModalBuilder/issues"
+  },
+  "dependencies": {
+    "coffee-script": "^1.6.0",
+    "coffeelint": "*",
+    "uglify-js": "*",
+    "gulp": "^3.4.0"
+  },
+  "devDependencies": {
+    "del": "*",
+    "gulp-coffee": "*",
+    "gulp-coffeelint": "*",
+    "gulp-concat": "*",
+    "gulp-rename": "*",
+    "gulp-uglify": "*"
+  }
+}
