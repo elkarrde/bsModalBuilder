@@ -1,6 +1,6 @@
 {
   "name": "bs-modal-builder",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Dynamic modal builder for Twitter Boostrap 3.x",
   "author": "Neven Falica <nfalica@mentat-labs.com>",
   "license": "MIT License",
