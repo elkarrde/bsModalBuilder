@@ -1,7 +1,10 @@
 var ModalBuilder;
 
 ModalBuilder = function(defaultParams) {
-  this.__version = '0.1.0';
+  if (defaultParams == null) {
+    defaultParams = null;
+  }
+  this.__version = '0.1.4';
   this.defaultParams = {
     title: null,
     hasTitle: true,
@@ -20,6 +23,9 @@ ModalBuilder = function(defaultParams) {
       }
     ]
   };
+  if (defaultParams != null) {
+    $.extend(this.defaultParams, defaultParams);
+  }
 };
 
 ModalBuilder.prototype.buildModal = function(title, content, callback, params) {
@@ -49,13 +55,14 @@ ModalBuilder.prototype.buildModal = function(title, content, callback, params) {
   modalDOMFooter = '<div class="modal-footer">';
   buttonHandlers = [];
   modalParams.buttons.forEach(function(button) {
-    var buttonBind, buttonDataType, buttonStyle;
+    var buttonBind, buttonDataType, buttonStyle, buttonType;
     if (button.type != null) {
       buttonDataType = ' data-' + button.type + '="modal"';
     }
     buttonStyle = button.style != null ? button.style : 'btn-default';
     buttonBind = button.bind != null ? ' data-bind="' + button.bind + '"' : '';
-    modalDOMFooter += '<button type="button" class="btn ' + buttonStyle + '"' + buttonDataType + buttonBind + '>' + button.text + '</button>';
+    buttonType = button.type === 'submit' ? 'submit' : 'button';
+    modalDOMFooter += '<button type="' + buttonType + '" class="btn ' + buttonStyle + '"' + buttonDataType + buttonBind + '>' + button.text + '</button>';
     if ((button.type != null) && button.type !== 'dismiss' && button.type !== 'submit') {
       buttonHandlers.push(button.type);
     }
@@ -112,6 +119,13 @@ ModalBuilder.prototype.buildModal = function(title, content, callback, params) {
       }
     });
   });
+  $('#modal_' + modalId).keydown(function(e) {
+    if (e.key === 'Enter') {
+      $('#modal_' + modalId + ' [data-submit="modal"]').trigger('click');
+    } else if (e.key === 'Escape') {
+      $('#modal_' + modalId + ' [data-dismiss="modal"]').trigger('click');
+    }
+  });
   return '#modal_' + modalId;
 };
 
@@ -122,7 +136,7 @@ ModalBuilder.prototype.show = function(modalId, onloadCallback, oncloseCallback)
   if (oncloseCallback == null) {
     oncloseCallback = false;
   }
-  $(modalId).modal('show').on('shown.bs.modal', function(e) {
+  $(modalId).modal('show').on('shown.bs.modal', function() {
     $(modalId).find('input').eq(0).focus();
     if (onloadCallback !== false) {
       onloadCallback(modalId);

@@ -1,7 +1,7 @@
-# --- Bootstrap 3.2.0 Modal Builder ---------------------------------------------------------------
+# --- Bootstrap 3.x Modal Builder ---------------------------------------------------------------
 # --- constructor ---
-ModalBuilder = (defaultParams) ->
-  @__version = '0.1.0'
+ModalBuilder = (defaultParams = null) ->
+  @__version = '0.1.4'
 
   @defaultParams =
     title: null
@@ -21,6 +21,8 @@ ModalBuilder = (defaultParams) ->
         style: 'btn-primary'
       }
     ]
+
+  $.extend @defaultParams, defaultParams  if defaultParams?
   return
 
 # --- generalized modal builder ---
@@ -61,7 +63,8 @@ ModalBuilder::buildModal = (title, content, callback, params = false) ->
     buttonDataType = ' data-'+button.type+'="modal"'  if button.type?
     buttonStyle = if button.style? then button.style else 'btn-default'
     buttonBind = if button.bind? then ' data-bind="'+button.bind+'"' else ''
-    modalDOMFooter += '<button type="button" class="btn '+buttonStyle+'"'+buttonDataType+buttonBind+'>'+button.text+'</button>'
+    buttonType = if button.type is 'submit' then 'submit' else 'button'
+    modalDOMFooter += '<button type="'+buttonType+'" class="btn '+buttonStyle+'"'+buttonDataType+buttonBind+'>'+button.text+'</button>'
     buttonHandlers.push button.type  if button.type? and button.type isnt 'dismiss' and button.type isnt 'submit'
     return
   modalDOMFooter += '</div>'
@@ -119,11 +122,19 @@ ModalBuilder::buildModal = (title, content, callback, params = false) ->
         callback[handler]()  if typeof callback is 'object' and callback[handler]?
     return
 
+  $('#modal_'+modalId).keydown (e) ->
+    if e.key is 'Enter'
+      $('#modal_'+modalId+' [data-submit="modal"]').trigger 'click'
+    else if e.key is 'Escape'
+      $('#modal_'+modalId+' [data-dismiss="modal"]').trigger 'click'
+
+    return
+
   '#modal_' + modalId
 
 # --- modal displayer ---
 ModalBuilder::show = (modalId, onloadCallback = false, oncloseCallback = false) ->
-  $(modalId).modal('show').on 'shown.bs.modal', (e) ->
+  $(modalId).modal('show').on 'shown.bs.modal', ->
     $(modalId).find('input').eq(0).focus()
     if onloadCallback isnt false
       onloadCallback modalId
