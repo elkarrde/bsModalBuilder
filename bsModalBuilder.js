@@ -4,13 +4,15 @@ ModalBuilder = function(defaultParams) {
   if (defaultParams == null) {
     defaultParams = null;
   }
-  this.__version = '0.1.4';
+  this.__version = '0.1.5';
   this.defaultParams = {
     title: null,
     hasTitle: true,
     hasFooter: true,
     content: null,
     isClosable: true,
+    doesFade: true,
+    size: false,
     buttons: [
       {
         text: 'Close',
@@ -29,7 +31,7 @@ ModalBuilder = function(defaultParams) {
 };
 
 ModalBuilder.prototype.buildModal = function(title, content, callback, params) {
-  var buttonHandlers, currentParamsMap, modalCallback, modalCloseBtn, modalContainer, modalContent, modalDOMContent, modalDOMFooter, modalDOMHeader, modalDom, modalId, modalKbClose, modalParams, modalTitle;
+  var buttonHandlers, currentParamsMap, modalCallback, modalCloseBtn, modalContainer, modalContent, modalDOMContent, modalDOMFooter, modalDOMHeader, modalDoesFade, modalDom, modalId, modalKbClose, modalParams, modalSize, modalTitle;
   if (params == null) {
     params = false;
   }
@@ -71,7 +73,17 @@ ModalBuilder.prototype.buildModal = function(title, content, callback, params) {
   modalDOMFooter += '</div>';
   modalDOMFooter = (modalParams.hasFooter != null) && modalParams.hasFooter === true ? modalDOMFooter : '';
   modalKbClose = (modalParams.noClose != null) && modalParams.noClose === true ? '' : ' keyboard';
-  modalDom = "<div class=\"modal fade" + modalKbClose + "\" id=\"modal_" + modalId + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"ModalLabel_" + modalId + "\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      " + modalDOMHeader + "\n      " + modalDOMContent + "\n      " + modalDOMFooter + "\n    </div>\n  </div>\n</div>";
+  modalDoesFade = (modalParams.doesFade != null) && modalParams.doesFade === false ? '' : ' fade';
+  modalSize = '';
+  if (modalParams.size != null) {
+    if (modalParams.size === 'lg') {
+      modalSize = ' modal-lg';
+    }
+    if (modalParams.size === 'sm') {
+      modalSize = ' modal-sm';
+    }
+  }
+  modalDom = "<div class=\"modal" + modalDoesFade + modalKbClose + "\" id=\"modal_" + modalId + "\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"ModalLabel_" + modalId + "\" aria-hidden=\"true\">\n  <div class=\"modal-dialog" + modalSize + "\">\n    <div class=\"modal-content\">\n      " + modalDOMHeader + "\n      " + modalDOMContent + "\n      " + modalDOMFooter + "\n    </div>\n  </div>\n</div>";
   modalContainer = this.__getContainer();
   modalContainer.append(modalDom);
   $('#modal_' + modalId + ' [data-submit="modal"]').click(function() {

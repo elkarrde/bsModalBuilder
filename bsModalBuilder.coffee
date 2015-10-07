@@ -1,14 +1,16 @@
 # --- Bootstrap 3.x Modal Builder ---------------------------------------------------------------
 # --- constructor ---
 ModalBuilder = (defaultParams = null) ->
-  @__version = '0.1.4'
+  @__version = '0.1.5'
 
   @defaultParams =
     title: null
     hasTitle: true
     hasFooter: true
     content: null
-    isClosable: true
+    isClosable: true,
+    doesFade: true,
+    size: false,
     buttons: [
       {
         text: 'Close'
@@ -72,10 +74,15 @@ ModalBuilder::buildModal = (title, content, callback, params = false) ->
 
   modalDOMFooter = if modalParams.hasFooter? and modalParams.hasFooter is true then modalDOMFooter else ''
   modalKbClose = if modalParams.noClose? and modalParams.noClose is true then '' else ' keyboard'
+  modalDoesFade = if modalParams.doesFade? and modalParams.doesFade is false then '' else ' fade'
+  modalSize = ''
+  if modalParams.size?
+    modalSize = ' modal-lg'  if modalParams.size is 'lg'
+    modalSize = ' modal-sm'  if modalParams.size is 'sm'
 
   modalDom = """
-  <div class="modal fade#{modalKbClose}" id="modal_#{modalId}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel_#{modalId}" aria-hidden="true">
-    <div class="modal-dialog">
+  <div class="modal#{modalDoesFade}#{modalKbClose}" id="modal_#{modalId}" tabindex="-1" role="dialog" aria-labelledby="ModalLabel_#{modalId}" aria-hidden="true">
+    <div class="modal-dialog#{modalSize}">
       <div class="modal-content">
         #{modalDOMHeader}
         #{modalDOMContent}

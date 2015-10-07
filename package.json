@@ -1,6 +1,6 @@
 {
-  "name": "bs-modal-builder",
-  "version": "0.1.0",
+  "name": "bsModalBuilder",
+  "version": "0.1.5",
   "description": "Dynamic modal builder for Twitter Boostrap 3.x",
   "author": "Neven Falica <nfalica@mentat-labs.com>",
   "license": "MIT License",
@@ -31,8 +31,8 @@
     "del": "*",
     "gulp-coffee": "*",
     "gulp-coffeelint": "*",
-    "gulp-concat": "*",
     "gulp-rename": "*",
-    "gulp-uglify": "*"
+    "gulp-uglify": "*",
+    "gulp-util": "*"
   }
 }
