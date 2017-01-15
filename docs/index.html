@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <title>bsModalBuilder by elkarrde</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:500,300,900&amp;subset=latin' type="text/css"/>
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <style>
+  h1 {
+    font-family: Roboto, Arial, sans-serif;
+	font-weight: 900;
+  }
+  h2, h3, h4, h5 {
+    font-family: Roboto, Arial, sans-serif;
+	font-weight: 500;
+  }
+  body {
+    font-family: Roboto, Arial, sans-serif;
+	font-weight: 300;
+  }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <div class="container">
+      <div>
+        <h1>bsModalBuilder <small>Dynamic modal builder for Twitter Bootstrap 3</small></h1>
+		<hr/>
+      </div>
+      <div class="row">
+        <div class="col-md-10">
+          <div>
+            <h2>Overview</h2>
+			<p>
+			  bsModalBuilder is a tool for building Bootstrap modals that are tailored to your specific needs, one modal at a time, without reusing the same markup.
+			  Each dynamically created modal is built specifically for that single task, using The Power of JavaScript&trade; :)
+			</p>
+          </div>
+          <br />
+
+          <div>
+            <h2>Quick-start</h2>
+			<ul>
+			  <li>Include <code>bsModalBuilder.js</code> after main Bootstrap 3 JavaScript files,</li>
+			  <li>Initialize new modal object like this <code>var Modal = new ModalBuilder();</code>,</li>
+			  <li>Run your new modal: <code>Modal.modal(<em>options</em>);</code></li>
+			</ul>
+          </div>
+          <br />
+
+          <div>
+            <h2>Example</h2>
+			<p>Simple modal example.</p>
+			<pre>var modal = Modal.modal(
+    'Example 1',
+    'This is an example 1!',
+    {
+        submit: function() {
+		    alert('Modal has been confirmed.');
+		},
+        dismiss: function() {
+		    alert('Modal has been dismissed.');
+		}
+    },
+    {
+        size: null,
+        buttons: [
+          {
+            text: 'Dismiss',
+            type: 'dismiss',
+            style: 'btn-default'
+          },
+          {
+            text: '&lt;span class="glyphicon glyphicon-ok"&gt;&lt;/span&gt;&nbsp; Confirm',
+            type: 'submit',
+            style: 'btn-primary'
+          }
+        ],
+        onloadCallback: function(mId) {
+            console.info('Modal loaded, ID:', mId);
+        },
+        oncloseCallback: function(mId) {
+            console.log('Modal closed, ID:', mId);
+        }
+    }
+);
+</pre>
+		  <br/>
+		  <button type="button" class="btn btn-primary" id="example1"><span class="glyphicon glyphicon-play"></span>&nbsp; Run this demo</button>
+          </div>
+		  <hr/>
+		</div>
+	  </div>
+
+      <div class="row">
+        <div class="col-md-10">	  
+          <div>
+            <h2>Methods</h2>
+			<p>
+			  Modal builder supports two ways of modal generation, fully automated or manual.
+			</p>
+			<h5>Automated building methods</h5>
+			<ul>
+			  <li><strong>.modal</strong>(title, content, callback, options) &ndash; fully customized modal builder with automathic modal displaying,</li>
+			  <li><strong>.alert</strong>(title, content) &ndash; modal-powered <code>alert()</code> equivalent,</li>
+			  <li><strong>.confirm</strong>(title, content, callback) &ndash; modal-powered <code>confirm()</code> equivalent,</li>
+			  <li><strong>.prompt</strong>(title, content, callback, options) &ndash; modal-powered <code>prompt()</code> equivalent,</li>
+			  <li><strong>.html</strong>(title, content, callback, options) &ndash; HTML-filled modal.</li>
+			</ul>
+			<br/>
+			<h5>Manual methods</h5>
+			<ul>
+			  <li><strong>.buildModal</strong>(title, content, callback, options) &ndash; manual builder,</li>
+			  <li><strong>.show</strong>(modal_id, loadCallback, closeCallback) &ndash; displays specific modal,</li>
+			  <li><strong>.hide</strong>(modal_id) &ndash; hides specific modal.</li>
+			</ul>
+          </div>
+          <br />
+	    </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="../bsModalBuilder.js"></script>
+  <script type="text/javascript">
+  $(function(){
+  var Modal = new ModalBuilder();
+  $('#example1').click(function() {
+	  var modal1 = Modal.modal(
+		  'Example 1',
+		  'This is an example 1!',
+		  {
+			submit: function() {
+			  alert('Modal has been confirmed.');
+			},
+			dismiss: function() {
+			  alert('Modal has been dismissed.');
+			}
+		  },
+		  {
+			size: null,
+			buttons: [
+			  {
+				text: 'Dismiss',
+				type: 'dismiss',
+				style: 'btn-default'
+			  },
+			  {
+				text: '<span class="glyphicon glyphicon-ok"></span>&nbsp; Confirm',
+				type: 'submit',
+				style: 'btn-primary'
+			  }
+			],
+			onloadCallback: function(mId) {
+			  console.info('Modal loaded, ID:', mId);
+			},
+			oncloseCallback: function(mId) {
+			  console.log('Modal closed.', mId);
+			}
+		  }
+		);
+		console.log('Modal ID:', modal1);
+	});
+  });
+  </script>
+  <script>
+  window.twttr=(function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],t=window.twttr||{};if(d.getElementById(id))return t;js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);t._e=[];t.ready=function(f){t._e.push(f);};return t;}(document,"script","twitter-wjs"));
+  </script>
+  
+  </body>
+</html>
